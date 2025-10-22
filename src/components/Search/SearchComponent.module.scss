@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-bottom: 24px;
+}
+
+.title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 26px;
+  line-height: 135%;
+  margin: 0;
+}
+
+.searchInput {
+  width: 403px;
+  
+  input {
+    background-color: transparent;
+    border: 1px solid #D5D6DC;
+  }
+}

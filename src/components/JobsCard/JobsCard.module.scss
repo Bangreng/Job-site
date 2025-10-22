@@ -1,0 +1,28 @@
+.card {
+  opacity: 1;
+  gap: 16px;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.salaryExperience {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.companyInfo {
+  flex-direction: column;
+  gap: 4px;
+}
+
+.workFormat {
+  padding: 1px 6px !important;
+  display: inline-flex;
+  align-self: flex-start;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+}
