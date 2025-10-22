@@ -25,7 +25,7 @@ export default function JobList(){
     if (status === "error") return <div>Ошибка: {error}</div>;
 
     return(
-        <Stack gap='16px'>
+        <Stack gap='16px' align="center">
         {displayedJobs .map((vacancy) => (
             <JobsCard key ={vacancy.id} {...vacancy}/>
         ))}
