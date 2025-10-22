@@ -2,16 +2,13 @@ import './App.css'
 import Header from './components/Header/Header'
 import SearchComponent from './components/Search/SearchComponent';
 import Main from './components/Main/Main';
-import {useState} from 'react'
-import { useTypedDispatch } from './hooks/redux';
+import { useTypedDispatch, useTypedSelector } from './hooks/redux';
 import { fetchJobs } from './store/reducer/JobThunks';
+import { setSearchText, setCity } from './store/reducer/JobSlice';
 
 function App() {
 
-  const [filters, setFilters] = useState({
-  searchText: '',
-  city: '' as string | null
-  });
+  const filters = useTypedSelector((state) => state.jobs.filters);
   const dispatch = useTypedDispatch();
 
   function handleSearch() {
@@ -29,7 +26,7 @@ function App() {
           <SearchComponent 
             searchText={filters.searchText}
             onSearchTextChange={(text: string) => 
-              setFilters(prev => ({...prev, searchText: text}))
+              dispatch(setSearchText(text))
             }
             onSearch={handleSearch}/>
         </div>
@@ -38,7 +35,7 @@ function App() {
         <Main 
           selectedCity={filters.city}
           onCityChange={(city: string | null) => 
-            setFilters(prev => ({...prev, city}))
+            dispatch(setCity(city))
           }
           currentSearchText={filters.searchText}/>
       </div>

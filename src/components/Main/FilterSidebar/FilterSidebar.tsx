@@ -1,25 +1,24 @@
 import { PillsInput, Pill } from "@mantine/core"
 import { useState } from "react";
 import { Box, Text, Group, Button, Select, Stack } from "@mantine/core";
-import { useTypedDispatch } from "../../../hooks/redux";
+import { useTypedDispatch, useTypedSelector } from "../../../hooks/redux";
 import { fetchJobs } from "../../../store/reducer/JobThunks";
 import styles from './FilterSidebar.module.scss'
+import { setCity, addSkill, removeSkill } from "../../../store/reducer/JobSlice";
 
 
 type FilterSidebarProps = {
-  selectedCity: string | null;
-  onCityChange: (city: string | null) => void;
   currentSearchText: string;
 }
 
-export default function FilterSidebar({ selectedCity, onCityChange, currentSearchText }: FilterSidebarProps){
-    const [skills, setSkills] = useState(['TypeScript', 'React', 'Redux']);
+export default function FilterSidebar({ currentSearchText }: FilterSidebarProps){
     const [inputValue, setInputValue] = useState('');
 
     const dispatch = useTypedDispatch();
+    const { filters, skills } = useTypedSelector((state) => state.jobs);
 
     const handleCityChange = (city: string | null) => {
-        onCityChange(city);
+        dispatch(setCity(city));
         dispatch(fetchJobs({
             searchText: currentSearchText,
             city: city || ''
@@ -27,21 +26,21 @@ export default function FilterSidebar({ selectedCity, onCityChange, currentSearc
     };
 
 
-    const addSkill = () => {
+    const handleAddSkill = () => {
         if (inputValue.trim() && !skills.includes(inputValue.trim())) {
-            setSkills([...skills, inputValue.trim()]);
+            dispatch(addSkill(inputValue.trim()));
             setInputValue('');
         }
     };
 
-    function removeSkill(skillToRemove: string){
-        setSkills(skills.filter(skill => skill !== skillToRemove));
+    function handleRemoveSkill(skillToRemove: string){
+        dispatch(removeSkill(skillToRemove));
     };
 
     function handleKeyDown(e: React.KeyboardEvent){
         if (e.key === 'Enter') {
             e.preventDefault();
-            addSkill();
+            handleAddSkill();
         }
     };
 
@@ -63,7 +62,7 @@ export default function FilterSidebar({ selectedCity, onCityChange, currentSearc
                             </Pill.Group>
                         </PillsInput>
                         <Button 
-                            onClick={addSkill}
+                            onClick={handleAddSkill}
                             className={styles.addButton}
                         >
                             +
@@ -75,7 +74,7 @@ export default function FilterSidebar({ selectedCity, onCityChange, currentSearc
                             <Pill 
                                 key={skill} 
                                 withRemoveButton 
-                                onRemove={() => removeSkill(skill)}
+                                onRemove={() => handleRemoveSkill(skill)}
                                 size="md"
                             >
                                 {skill}
@@ -85,7 +84,7 @@ export default function FilterSidebar({ selectedCity, onCityChange, currentSearc
             </Box>
             <Box w='317px' h='84px' bg="white" className={styles.cityBox}>
                 <Select
-                    value={selectedCity}
+                    value={filters.city}
                     onChange={handleCityChange}
                     placeholder="Все города"
                     data={[

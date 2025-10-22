@@ -1,12 +1,12 @@
 import { useTypedSelector,useTypedDispatch } from "../../../hooks/redux"
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import JobsCard from "../../JobsCard/JobsCard";
 import { Stack, Pagination } from "@mantine/core";
 import { fetchJobs } from "./../../../store/reducer/JobThunks";
+import { setPage } from "./../../../store/reducer/JobSlice";
 
 export default function JobList(){
-    const { jobs, status, error } = useTypedSelector((state) => state.jobs);
-    const [page, setPage] = useState(1);
+    const { jobs, status, error, pagination  } = useTypedSelector((state) => state.jobs);
     const dispatch = useTypedDispatch();
 
     useEffect(() => {
@@ -17,10 +17,14 @@ export default function JobList(){
 
 
 
-    const itemsPerPage = 10;
-    const startIndex = (page - 1) * itemsPerPage;
+    const { currentPage, itemsPerPage } = pagination;
+    const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const displayedJobs = jobs.slice(startIndex, endIndex);
+
+    function handlePageChange(page: number){
+        dispatch(setPage(page));
+    };
 
     if (status === "error") return <div>Ошибка: {error}</div>;
 
@@ -30,7 +34,7 @@ export default function JobList(){
             <JobsCard key ={vacancy.id} {...vacancy}/>
         ))}
 
-        <Pagination value={page} onChange={setPage} total={Math.ceil(jobs.length / itemsPerPage)}/>
+        <Pagination value={currentPage} onChange={handlePageChange} total={Math.ceil(jobs.length / itemsPerPage)}/>
         </Stack>
     )
 }
