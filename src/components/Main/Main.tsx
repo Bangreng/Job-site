@@ -4,15 +4,13 @@ import FilterSidebar from "./FilterSidebar/FilterSidebar"
 import styles from './Main.module.scss'
 
 type MainProps = {
-  selectedCity: string | null
-  onCityChange: (city: string | null) => void
   currentSearchText: string
 }
 
-export default function Main({selectedCity, onCityChange, currentSearchText}:MainProps){
+export default function Main({currentSearchText}:MainProps){
     return(
         <Box className={styles.container}>
-            <FilterSidebar selectedCity={selectedCity} onCityChange={onCityChange} currentSearchText={currentSearchText}/>
+            <FilterSidebar currentSearchText={currentSearchText}/>
             <JobList />
         </Box>
     )

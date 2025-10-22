@@ -32,12 +32,7 @@ function App() {
         </div>
       </div>
       <div className='wrapper'>
-        <Main 
-          selectedCity={filters.city}
-          onCityChange={(city: string | null) => 
-            dispatch(setCity(city))
-          }
-          currentSearchText={filters.searchText}/>
+        <Main currentSearchText={filters.searchText}/>
       </div>
     </>
   );
