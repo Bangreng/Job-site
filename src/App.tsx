@@ -4,7 +4,7 @@ import SearchComponent from './components/Search/SearchComponent';
 import Main from './components/Main/Main';
 import { useTypedDispatch, useTypedSelector } from './hooks/redux';
 import { fetchJobs } from './store/reducer/JobThunks';
-import { setSearchText, setCity } from './store/reducer/JobSlice';
+import { setSearchText } from './store/reducer/JobSlice';
 
 function App() {
 
