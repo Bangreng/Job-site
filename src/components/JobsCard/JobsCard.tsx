@@ -1,6 +1,6 @@
 import type { JobItem, HhSalary, HhWorkFormat} from '../../types/hh';
 import { Box, Text, Button } from "@mantine/core";
-import { transformCurrencySymbol } from '../../types/hh';
+import { transformCurrencySymbol, workFormat  } from '../../types/hh';
 import styles from './JobsCard.module.scss'
 
 export default function JobsCart({ name, employer, salary, experience, alternate_url, area, work_format }: JobItem){
@@ -28,27 +28,28 @@ export default function JobsCart({ name, employer, salary, experience, alternate
         return 'Зарплата не указана'
     }
 
-    function transformWorkFormat(work_format: HhWorkFormat[]){
+    function getWorkFormatInfo(work_format: HhWorkFormat[]) {
         if (!work_format || work_format.length === 0) {
-            return { text: 'Не указано', color: '#0F0F101A' };
+            return { 
+                text: 'Не указано', 
+                className: 'workFormatDefault'
+            };
         }
         
-        const format = work_format[0];
+        const formatId = work_format[0].id;
+        const formatFromDict = workFormat[formatId as keyof typeof workFormat];
         
-        if(format.id === 'ON_SITE'){
-            return { text: 'Офис', color: '#0F0F101A' };
+        if (formatFromDict) {
+            return formatFromDict;
         }
-        if(format.id === 'REMOTE'){
-            return { text: 'Можно удалённо', color: '#4263EB' };
-        }
-        if(format.id === 'HYBRID'){
-            return { text: 'Гибрид', color: '#0F0F10' };
-        }
-        return { text: format.name, color: '#0F0F101A' };
         
+        return {
+            text: work_format[0].name,
+            className: 'workFormatDefault'
+        };
     }
 
-    const workFormatInfo = transformWorkFormat(work_format);
+    const workFormatInfo = getWorkFormatInfo(work_format);
 
     return(
         <Box bg="white" w={659} h={248} className={styles.card}>
@@ -60,7 +61,7 @@ export default function JobsCart({ name, employer, salary, experience, alternate
 
             <Box mt='16px' display='flex' className={styles.companyInfo}>
                 <Text fz="14px" c='#0F0F1080'>{employer.name}</Text>
-                <Text size='sm' className={styles.workFormat} style={{ backgroundColor: workFormatInfo.color, color: (workFormatInfo.color === '#0F0F10' || workFormatInfo.color === '#4263EB') ? 'white' : '#0F0F10'}}>
+                <Text size='sm' className={`${styles.workFormat} ${styles[workFormatInfo.className]}`}>
                     {workFormatInfo.text}
                 </Text>
                 <Text>{area.name}</Text>

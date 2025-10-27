@@ -18,6 +18,21 @@ export function transformCurrencySymbol(currency: string | null): string{
   return mapCurrensy[currency || ''] || currency || ''
 }
 
+export const workFormat = {
+    'REMOTE': {
+        text: 'Можно удалённо', 
+        className: 'workFormatRemote'
+    },
+    'ON_SITE': {
+        text: 'Офис',
+        className: 'workFormatOffice'
+    },
+    'HYBRID': {
+        text: 'Гибрид',
+        className: 'workFormatHybrid'
+    }
+};
+
 export type HhArea = {
   name: string;
 };

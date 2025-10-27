@@ -17,12 +17,34 @@
 }
 
 .workFormat {
-  padding: 1px 6px !important;
+  padding: 4px 6px !important;
   display: inline-flex;
   align-self: flex-start;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .buttons {
   display: flex;
   gap: 12px;
+}
+
+.workFormatRemote {
+  background-color: #4263EB;
+  color: white !important;
+}
+
+.workFormatOffice {
+  background-color: #0F0F101A;
+  color: #464646 !important;
+}
+
+.workFormatHybrid {
+  background-color: #0F0F10;
+  color: white !important;
+}
+
+.workFormatDefault {
+  background-color: #0F0F101A;
+  color: #0F0F10 !important;
 }
