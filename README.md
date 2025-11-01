@@ -1,6 +1,6 @@
 # GitHub Pages
 
-https://bangreng.github.io/Job-site/
+https://bangreng.github.io/Job-site-router
 
 # React + TypeScript + Vite
 
