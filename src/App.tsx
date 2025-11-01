@@ -60,7 +60,7 @@ function AppContent() {
 
 function App() {
   return (
-    <BrowserRouter basename="/Job-site">
+    <BrowserRouter basename="/Job-site-router">
       <AppContent />
     </BrowserRouter>
   );

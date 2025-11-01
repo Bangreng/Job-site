@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/Bangreng/Job-site.git",
+  "homepage": "https://bangreng.github.io/Job-site-router/",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
