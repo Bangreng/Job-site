@@ -59,6 +59,7 @@ export type JobItem = {
   experience: HhExperience;
   alternate_url: string;
   work_format: HhWorkFormat[];
+  description?: string; 
 };
 
 export type HhResponse = {

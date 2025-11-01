@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { MantineProvider } from '@mantine/core'
 import JobsCart from './JobsCard'
 import type { JobItem } from '../../types/hh'
+import { MemoryRouter } from 'react-router-dom'
 
 beforeEach(() => {
   Object.defineProperty(window, 'matchMedia', {
@@ -37,9 +38,11 @@ const mockJob: JobItem = {
 
 const renderWithMantine = (component: React.ReactNode) => {
   return render(
-    <MantineProvider>
-      {component}
-    </MantineProvider>
+    <MemoryRouter>
+      <MantineProvider>
+        {component}
+      </MantineProvider>
+    </MemoryRouter>
   )
 }
 

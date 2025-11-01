@@ -22,7 +22,7 @@ beforeEach(() => {
 const mockProps = {
   searchText: '',
   onSearchTextChange: vi.fn(),
-  onSearch: vi.fn(),
+  onSearchTextUpdate: vi.fn(),
 }
 
 const renderWithMantine = (component: React.ReactNode) => {
@@ -55,7 +55,7 @@ describe('SearchComponent', () => {
     const button = screen.getByRole('button', { name: 'Найти' })
     fireEvent.click(button)
     
-    expect(mockProps.onSearch).toHaveBeenCalledTimes(1)
+    expect(mockProps.onSearchTextUpdate).toHaveBeenCalledTimes(1)
   })
 
 })

@@ -2,11 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchJobs } from "./JobThunks";
 import type { JobItem } from "../../types/hh";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { fetchJobById } from "./JobThunks";
 
 type JobState = {
   jobs: JobItem[];
   status: "loading" | "resolved" | "error" | null;
   error: string | null;
+  selectedJob: JobItem | null;
   filters: {
     searchText: string;
     city: string | null;
@@ -22,6 +24,7 @@ const initialState: JobState = {
   jobs: [],
   status: null,
   error: null,
+  selectedJob: null,
   filters: {
     searchText: '',
     city: null,
@@ -80,7 +83,11 @@ const jobSlice = createSlice({
       .addCase(fetchJobs.rejected, (state, action) => {
         state.status = "error";
         state.error = action.payload ?? 'Неизвестная ошибка';
-      });
+      })
+      .addCase(fetchJobById.fulfilled, (state, action) => {
+        state.selectedJob = action.payload
+      })
+
   },
 });
 

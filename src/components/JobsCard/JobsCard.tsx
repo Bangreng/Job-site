@@ -2,8 +2,11 @@ import type { JobItem, HhSalary, HhWorkFormat} from '../../types/hh';
 import { Box, Text, Button } from "@mantine/core";
 import { transformCurrencySymbol, workFormat  } from '../../types/hh';
 import styles from './JobsCard.module.scss'
+import { Link } from 'react-router-dom';
 
-export default function JobsCart({ name, employer, salary, experience, alternate_url, area, work_format }: JobItem){
+type JobsCardProps = JobItem & {isOpenVacancyPage?: boolean}
+
+export default function JobsCart({ id, name, employer, salary, experience, alternate_url, area, work_format, isOpenVacancyPage }: JobsCardProps){
     function returnSalary(salary: HhSalary | null){
         if(!salary) return 'Зарплата не указана'
 
@@ -68,8 +71,10 @@ export default function JobsCart({ name, employer, salary, experience, alternate
             </Box>
 
             <Box mt='16px' className={styles.buttons}>
-                <Button size="sm" radius="sm" color="#000000">Смотреть вакансию</Button>
-                <Button size="sm" color="#0F0F101A" c="black" fz='14px' onClick={() => window.open(alternate_url)}>Откликнуться</Button>
+                {!isOpenVacancyPage && (
+                    <Button size="sm" radius="sm" color="#000000" component={Link} to={`/vacancies/${id}`}>Смотреть вакансию</Button>
+                )}
+                <Button size="sm" color={isOpenVacancyPage ? "#000000" : "#0F0F101A"} c={isOpenVacancyPage ? "white" : "black"}  fz='14px' onClick={() => window.open(alternate_url)}>{isOpenVacancyPage ? "Откликнуться на hh.ru" : "Откликнуться"}</Button>
             </Box>
         </Box>
     )

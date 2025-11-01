@@ -5,7 +5,11 @@ import { Stack, Pagination, Box } from "@mantine/core";
 import { fetchJobs } from "./../../../store/reducer/JobThunks";
 import { setPage } from "./../../../store/reducer/JobSlice";
 
-export default function JobList(){
+type JobListProps = {
+    updateURL: (updates: { page?: number }) => void;
+};
+
+export default function JobList({ updateURL }: JobListProps) {
     const { jobs, status, error, pagination } = useTypedSelector((state) => state.jobs);
     const dispatch = useTypedDispatch();
 
@@ -17,24 +21,34 @@ export default function JobList(){
 
     const handlePageChange = (page: number) => {
         dispatch(setPage(page));
-        dispatch(fetchJobs({ page: page - 1 }));
+        updateURL({ page });
     };
+
+    if (status === "loading") {
+        return (
+            <Box>
+                <div>Загрузка вакансий...</div>
+            </Box>
+        )
+    }
 
     if (status === "error") return <div>Ошибка: {error}</div>;
 
-    return(
+    return (
         <Stack gap='16px' align="center">
             {jobs.map((vacancy) => (
-                <JobsCard key={vacancy.id} {...vacancy}/>
+                <JobsCard key={vacancy.id} {...vacancy} />
             ))}
 
-            <Box mb={50}>
-                <Pagination 
-                    value={pagination.currentPage}
-                    onChange={handlePageChange}
-                    total={100}
-                />
-            </Box>
+            {jobs.length > 0 && (
+                <Box mb={50}>
+                    <Pagination
+                        value={pagination.currentPage}
+                        onChange={handlePageChange}
+                        total={100}
+                    />
+                </Box>
+            )}
         </Stack>
     )
 }

@@ -38,9 +38,7 @@ const createMockStore = () => {
 }
 
 const mockProps = {
-  selectedCity: null,
-  onCityChange: vi.fn(),
-  currentSearchText: '',
+  onFiltersChange: vi.fn(),
 }
 
 const renderWithProviders = (component: React.ReactNode) => {

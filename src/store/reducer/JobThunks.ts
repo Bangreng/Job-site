@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { HhResponse } from "../../types/hh";
+import type { HhResponse, JobItem } from "../../types/hh";
 
 export const fetchJobs = createAsyncThunk<
     HhResponse,
@@ -10,7 +10,6 @@ export const fetchJobs = createAsyncThunk<
 
     async function (params = {}, {rejectWithValue}){
         try{
-            
             const searchQuery = params.searchText ? `&text=${encodeURIComponent(params.searchText)}` : '';
             const cityQuery = params.city ? `&area=${params.city}` : '';
             const pageQuery = params.page !== undefined ? `&page=${params.page}` : '&page=0';
@@ -29,3 +28,26 @@ export const fetchJobs = createAsyncThunk<
         }
     }
 )
+
+export const fetchJobById = createAsyncThunk<JobItem, string>(
+    'jobs/fetchJobById',
+    async (id: string, { rejectWithValue }) => {
+    try {
+        const res = await fetch(`https://api.hh.ru/vacancies/${id}`);
+        if (!res.ok) throw new Error('Ошибка сервера');
+        const data = await res.json();
+
+        const job: JobItem = {
+        ...data,
+        snippet: {
+            requirement: data.snippet?.requirement || data.description || 'Не указано',
+            responsibility: data.snippet?.responsibility || data.description || 'Не указано',
+        },
+      };
+
+      return job;
+    } catch (err: any) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
